@@ -7,18 +7,26 @@
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js",
-    "preload": "node -r dotenv/config index.js", 
+    "preload": "node -r dotenv/config index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^4.8.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "pg": "^8.8.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.15",
+    "@types/node": "^18.11.18",
+    "esbuild-register": "^3.4.2",
+    "nodemon": "^2.0.20",
+    "prisma": "^4.8.0",
+    "typescript": "^4.9.4"
   }
 }
