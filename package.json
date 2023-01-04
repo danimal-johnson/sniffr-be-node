@@ -3,14 +3,12 @@
   "version": "1.0.0",
   "description": "The API for the Sniffr dog app.",
   "main": "index.js",
-  "type": "module",
   "prisma": {
-    "seed": "ts-node --require esbuild-register prisma/seed.ts",
-    "bleed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "node --require esbuild-register prisma/seed.ts"
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "npx nodemon",
+    "dev": "nodemon src/index.ts",
     "preload": "node -r dotenv/config index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +20,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-validator": "^6.14.2",
     "pg": "^8.8.0"
   },
   "devDependencies": {
@@ -31,7 +30,7 @@
     "esbuild-register": "^3.4.2",
     "nodemon": "^2.0.20",
     "prisma": "^4.8.0",
-    "typescript": "^4.9.4",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
   }
 }
