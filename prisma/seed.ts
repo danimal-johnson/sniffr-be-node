@@ -1,7 +1,7 @@
-import { db } from '../src/utils/db.server.js';
+import { db } from '../src/utils/db.server';
 
-type User = {
-  name: string;
+type Author = {
+  authorName: string;
   email: string;
 }
 
@@ -12,54 +12,58 @@ type Post = {
 }
 
 async function seed() {
+  console.log("Seeding the database...");
   await Promise.all(
-    getUsers.map((user: User) => db.user.create({
-      return db.user.create({
+    getAuthors().map((author: Author) => {
+      const { authorName, email } = author;
+      return db.author.create({
         data: {
-          name: user.name,
-          email: user.email,
-        }
-      })
-    }))
-  )
+          authorName,
+          email,
+        },
+      });
+    })
+  );
 
-  const user = await db.user.findFirst({
+  const author = await db.author.findFirst({
     where: {
-      firstName: 'Alice',
+      authorName: 'Alice',
     },
   });
 
   await Promise.all(
-    getPosts().map((post: Post) => db.post.create({
+    getPosts().map((post: Post) => {
+      const { title, content, published } = post;
       return db.post.create({
         data: {
-          title: post.title,
-          content: post.content,
-          published: post.published,
-          authorId: user.id,
+          title,
+          content,
+          published,
+          authorId: author?.id || 1,
         },
-    }))
-  );
+      });
+    }
+  ));
 }
 
-function getUsers(): User[] {
+function getAuthors(): Array<Author> {
   return [
     {
-      name: 'Alice',
+      authorName: 'Alice',
       email: 'alice@hotmail.com',
     },
     {
-      name: 'Bob',
+      authorName: 'Bob',
       email: 'bob@hotmail.com',
     },
     {
-      name: 'Charlie',
+      authorName: 'Charlie',
       email: 'charlie@hotmail.com',
     }
   ];
 }
 
-function getPosts(): Post[] {
+function getPosts(): Array<Post> {
   return [
     {
       title: 'Hello World',
@@ -73,3 +77,5 @@ function getPosts(): Post[] {
     },
   ];
 }
+
+seed();

@@ -4,7 +4,7 @@
   "description": "The API for the Sniffr dog app.",
   "main": "index.js",
   "prisma": {
-    "seed": "node --require esbuild-register prisma/seed.ts"
+    "seed": "ts-node --require esbuild-register prisma/seed.ts"
   },
   "scripts": {
     "start": "node index.js",

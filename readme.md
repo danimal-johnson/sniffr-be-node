@@ -2,6 +2,21 @@
 
 Background: The backend for this project was originally written in Python and hosted on Heroku. Since the service is no longer available at its original pricing tier, the API had to be moved to a new location. This also provides a good opportunity to create a version in NodeJS.
 
+## Getting Started
+
+1. `npm i`: Install the npm packages.
+2. Initialize Prisma ORM
+   * `npx prisma init`: (Defaults to PostgreSQL.)
+   * `npx prisma init --datasource-provider sqlite` (if you're using SQLITE.)
+3. `npx prisma db push`: initialize the database
+4. Run migrations and seed the database:
+   * `npx prisma migrate reset` to reset the database.
+   * `npx prisma migrate dev [--name desc]` to interactively seed the database.
+
+View database:
+
+* `npx prisma studio`
+
 ## API
 
 [Run in Postman](https://documenter.getpostman.com/view/12180328/2s83tGnWnR)

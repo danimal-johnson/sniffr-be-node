@@ -10,13 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  name      String?
-  posts     Post[]
+model Author {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  email      String   @unique
+  authorName String
+  Post       Post[]
 }
 
 model Post {
@@ -26,6 +26,6 @@ model Post {
   published Boolean  @default(false)
   title     String
   content   String?
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId  Int
+  author    Author?     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  Int?
 }
