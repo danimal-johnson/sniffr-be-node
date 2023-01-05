@@ -29,3 +29,23 @@ model Post {
   author    Author?     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int?
 }
+
+model activities {
+  id        Int      @id @default(autoincrement())
+  activity  String
+}
+
+model temperaments {
+  id           Int      @id @default(autoincrement())
+  temperament  String
+}
+
+model sizes {
+  id       Int      @id @default(autoincrement())
+  size     String
+}
+
+model breeds {
+  id        Int      @id @default(autoincrement())
+  breed     String
+}

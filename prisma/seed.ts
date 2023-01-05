@@ -44,6 +44,36 @@ async function seed() {
       });
     }
   ));
+
+  await Promise.all(
+    getActivities().map((activity: string) => {
+      return db.activities.create({
+        data: {
+          activity,
+        },
+      });
+    })
+  );
+
+  await Promise.all(
+    getTemperaments().map((temperament: string) => {
+      return db.temperaments.create({
+        data: {
+          temperament,
+        },
+      });
+    })
+  );
+
+  await Promise.all(
+    getSizes().map((size: string) => {
+      return db.sizes.create({
+        data: {
+          size,
+        },
+      });
+    })
+  );
 }
 
 function getAuthors(): Array<Author> {
@@ -75,6 +105,49 @@ function getPosts(): Array<Post> {
       content: 'This is how I use my foo.',
       published: false,
     },
+  ];
+}
+
+function getActivities(): Array<string> {
+  return [
+    "Walks",
+    "Fetch",
+    "Tricks",
+    "Agility",
+    "Swimming",
+    "Car Rides",
+    "Frisbee",
+    "Dog Parks",
+    "Cuddles"
+  ];
+}
+
+function getTemperaments(): Array<string> {
+  return [
+    "Saucy",
+    "Playful",
+    "Cautious",
+    "Clingy",
+    "Permanently Ecstatic",
+    "Old and wise",
+    "Affectionate",
+    "Energetic",
+    "Intelligent",
+    "Loyal",
+    "Loving",
+    "Protective",
+    "Trainable"
+  ];
+}
+
+function getSizes(): Array<string> {
+  return [
+    "Teacup (0-4 lbs)",
+    "Toy (5-12 lbs)",
+    "Small (13-24 lbs)",
+    "Medium (25-59 lbs)",
+    "Large (60-99 lbs)",
+    "Giant (100+ lbs)"
   ];
 }
 
