@@ -9,6 +9,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
+    "seed": "ts-node --require esbuild-register prisma/seed.ts",
     "preload": "node -r dotenv/config index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

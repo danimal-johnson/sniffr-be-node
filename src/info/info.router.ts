@@ -9,7 +9,7 @@ export const infoRouter = express.Router();
 // GET /api/temperaments
 infoRouter.get('/temperaments', async (req: Request, res: Response) => {
   try {
-    const temperaments = await infoService.listBreeds();
+    const temperaments = await infoService.listTemperaments();
     res.json(temperaments);
   }
   catch (err: any) {

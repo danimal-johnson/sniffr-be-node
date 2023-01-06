@@ -1,4 +1,34 @@
 import { db } from '../src/utils/db.server';
+// import { Dog } from '../src/dogs/dog.service';
+// import { User } from '../src/users/user.service';
+
+type Dog = {
+  dog_name: string;
+  birthday: Date;
+  owner_id: number;
+  breed_id: number;
+  size_id: number;
+  activity1_id: number;
+  activity2_id: number;
+  activity3_id: number;
+  temperament_id: number;
+  is_vaccinated: boolean;
+  is_fixed: boolean;
+  dog_bio: string;
+};
+
+type User = {
+  user_name: string;
+  email: string;
+  password: string;
+  birthday: Date;
+  gender: string;
+  user_pic: string;
+  user_bio: string;
+  role: string;
+  max_distance: number;
+  zip_code: string;
+};
 
 type Author = {
   authorName: string;
@@ -13,6 +43,7 @@ type Post = {
 
 async function seed() {
   console.log("Seeding the database...");
+  console.log("- Adding authors...");
   await Promise.all(
     getAuthors().map((author: Author) => {
       const { authorName, email } = author;
@@ -31,6 +62,7 @@ async function seed() {
     },
   });
 
+  console.log("- Adding posts...");
   await Promise.all(
     getPosts().map((post: Post) => {
       const { title, content, published } = post;
@@ -45,6 +77,7 @@ async function seed() {
     }
   ));
 
+  console.log("- Adding activities...");
   await Promise.all(
     getActivities().map((activity: string) => {
       return db.activities.create({
@@ -55,6 +88,7 @@ async function seed() {
     })
   );
 
+  console.log("- Adding temperaments...");
   await Promise.all(
     getTemperaments().map((temperament: string) => {
       return db.temperaments.create({
@@ -65,6 +99,7 @@ async function seed() {
     })
   );
 
+  console.log("- Adding sizes...");
   await Promise.all(
     getSizes().map((size: string) => {
       return db.sizes.create({
@@ -74,6 +109,61 @@ async function seed() {
       });
     })
   );
+  console.log("- Adding users...");
+  await Promise.all(
+    getUsers().map((user: User) => {
+      const { user_name, email, password, birthday,
+            gender, user_pic, user_bio, role,
+            max_distance, zip_code } = user;
+      return db.users.create({
+        data: {
+          user_name,
+          password,
+          email,
+          birthday,
+          gender,
+          user_pic,
+          user_bio,
+          role,
+          max_distance,
+          zip_code,
+        },
+      });
+    })
+  );
+
+  const user = await db.users.findFirst({
+    where: {
+      user_name: 'Alice',
+    },
+  });
+
+  console.log("- Adding dogs...");
+  await Promise.all(
+    getDogs().map((dog: Dog) => {
+      const { dog_name, owner_id, birthday, breed_id, size_id,
+              activity1_id, activity2_id, activity3_id,
+              temperament_id, is_vaccinated, is_fixed, dog_bio } = dog;
+      return db.dogs.create({
+        data: {
+          dog_name,
+          birthday,
+          owner_id, // user?.id || 1,
+          breed_id,
+          size_id,
+          activity1_id,
+          activity2_id,
+          activity3_id,
+          temperament_id,
+          is_vaccinated,
+          is_fixed,
+          dog_bio,
+        },
+      });
+    })
+  );
+
+
 }
 
 function getAuthors(): Array<Author> {
@@ -107,6 +197,45 @@ function getPosts(): Array<Post> {
     },
   ];
 }
+
+function getDogs(): Array<Dog> {
+  const fidobday = new Date(2020, 1, 1);
+  return [
+    {
+      dog_name: 'Fido',
+      birthday: fidobday,
+      owner_id: 1,
+      breed_id: 1,
+      size_id: 1,
+      activity1_id: 1,
+      activity2_id: 2,
+      activity3_id: 3,
+      temperament_id: 1,
+      is_vaccinated: true,
+      is_fixed: true,
+      dog_bio: 'Fido is a classic doggo. He loves to play fetch and go for walks.'
+    }
+  ];
+}
+
+function getUsers(): Array<User> {
+  const aliceDate = new Date(1990, 1, 1);
+  return [
+    {
+      user_name: 'Alice',
+      email: 'alice@hotmail.com',
+      password: 'password',
+      birthday: aliceDate,
+      gender: 'Female',
+      user_pic: 'https://images.unsplash.com/photo-1589986657445-8e1b0e1b5f1c?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nJTIwY29sb3J8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80',
+      user_bio: 'I love dogs!',
+      role: 'user',
+      max_distance: 10,
+      zip_code: '12345',
+    },
+  ];
+}
+
 
 function getActivities(): Array<string> {
   return [

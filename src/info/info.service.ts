@@ -20,6 +20,7 @@ export type Breed = {
   breed: string;
 };
 
+// TODO: This is just an example. Shrink it down.
 export const listTemperaments = async (): Promise<Temperament[]> => {
   const temperaments = await db.temperaments.findMany({
     select: {

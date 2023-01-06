@@ -10,6 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// TODO: Remove
 model Author {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
@@ -19,6 +20,7 @@ model Author {
   Post       Post[]
 }
 
+// TODO: Remove
 model Post {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -26,10 +28,45 @@ model Post {
   published Boolean  @default(false)
   title     String
   content   String?
-  author    Author?     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author    Author?  @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int?
 }
+model users {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  password  String
+  user_name String?
+  birthday  DateTime?
+  gender    String?
+  user_pic  String?
+  user_bio  String?
+  role      String?
+  max_dist  Int?
+  zip_code  Int?
+  dogs      dogs[]
+}
 
+model dogs {
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  dog_name       String
+  birthday       DateTime?
+  breed_id       Int?
+  size_id        Int?
+  temperament_id Int?
+  activity1_id   Int?
+  activity2_id   Int?
+  activity3_id   Int?
+  is_vaccinated  Boolean?
+  is_fixed       Boolean?
+  dog_pic        String?
+  dog_bio        String?
+  owner          users @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+  owner_id       Int
+}
 model activities {
   id        Int      @id @default(autoincrement())
   activity  String
