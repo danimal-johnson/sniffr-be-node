@@ -27,5 +27,86 @@ export const findDogById = async (id: number): Promise<Dog | null> => {
   });
 }
 
-// TODO: add createDog, updateDog, deleteDog
-// Add dogs table to database and seed it with data
+export const createDog = async (dog: Omit<Dog, 'id'>): Promise<Dog> => {
+  const { dog_name, birthday, owner_id, breed_id, size_id,
+          activity1_id, activity2_id, activity3_id, temperament_id, 
+          is_vaccinated, is_fixed, dog_bio } = dog;
+  return db.dogs.create({
+    data: {
+      dog_name,
+      birthday,
+      owner_id,
+      breed_id,
+      size_id,
+      activity1_id,
+      activity2_id,
+      activity3_id,
+      temperament_id,
+      is_vaccinated,
+      is_fixed,
+      dog_bio
+    },
+    select: {
+      id: true,
+      dog_name: true,
+      birthday: true,
+      owner_id: true,
+      breed_id: true,
+      size_id: true,
+      activity1_id: true,
+      activity2_id: true,
+      activity3_id: true,
+      temperament_id: true,
+      is_vaccinated: true,
+      is_fixed: true,
+      dog_bio: true
+    }
+  });
+}
+
+export const updateDog = async (
+  dog: Omit<Dog, 'id'>,
+  id: number
+): Promise<Dog> => {
+  const { dog_name, birthday, owner_id, breed_id, size_id,
+          activity1_id, activity2_id, activity3_id, temperament_id, 
+          is_vaccinated, is_fixed, dog_bio } = dog;
+  return db.dogs.update({
+    where: { id },
+    data: {
+      dog_name,
+      birthday,
+      owner_id,
+      breed_id,
+      size_id,
+      activity1_id,
+      activity2_id,
+      activity3_id,
+      temperament_id,
+      is_vaccinated,
+      is_fixed,
+      dog_bio
+    },
+    select: {
+      id: true,
+      dog_name: true,
+      birthday: true,
+      owner_id: true,
+      breed_id: true,
+      size_id: true,
+      activity1_id: true,
+      activity2_id: true,
+      activity3_id: true,
+      temperament_id: true,
+      is_vaccinated: true,
+      is_fixed: true,
+      dog_bio: true
+    }
+  });
+}
+
+export const deleteDog = async (id: number): Promise<void> => {
+  await db.dogs.delete({
+    where: { id },
+  });
+}
