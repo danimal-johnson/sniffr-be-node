@@ -4,10 +4,10 @@ import { body } from 'express-validator';
 
 import * as userService from './user.service';
 
-export const usersRouter = express.Router();
+export const userRouter = express.Router();
 
 // GET /api/users
-usersRouter.get('/', async (req: Request, res: Response) => {
+userRouter.get('/', async (req: Request, res: Response) => {
   try {
     const users = await userService.listUsers();
     res.json(users);
@@ -18,10 +18,11 @@ usersRouter.get('/', async (req: Request, res: Response) => {
 });
 
 // GET /api/users/:id
-usersRouter.get('/:id', async (req: Request, res: Response) => {
+userRouter.get('/:id', async (req: Request, res: Response) => {
   try {
     const user = await userService.findUserById(Number(req.params.id));
-    res.json(user);
+    if (user) return res.json(user);
+    return res.status(404).json({ message: 'User not found' });
   }
   catch (err: any) {
     return res.status(500).json({ message: err.message });

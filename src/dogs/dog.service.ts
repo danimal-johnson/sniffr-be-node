@@ -21,11 +21,10 @@ export const listDogs = async (): Promise<Dog[]> => {
   return dogs;
 }
 
-export const findDogById = async (id: number): Promise<Dog> => {
-  const dog: Dog = await db.dogs.findUnique({
-    where: { id: Number(id) },
+export const findDogById = async (id: number): Promise<Dog | null> => {
+  return db.dogs.findUnique({
+    where: { id },
   });
-  return dog;
 }
 
 // TODO: add createDog, updateDog, deleteDog

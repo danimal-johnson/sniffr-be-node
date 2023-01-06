@@ -21,7 +21,8 @@ dogRouter.get('/', async (req: Request, res: Response) => {
 dogRouter.get('/:id', async (req: Request, res: Response) => {
   try {
     const dog = await dogService.findDogById(Number(req.params.id));
-    res.json(dog);
+    if (dog) return res.json(dog);
+    return res.status(404).json({ message: 'Dog not found' });
   }
   catch (err: any) {
     return res.status(500).json({ message: err.message });

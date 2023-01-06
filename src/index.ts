@@ -4,6 +4,8 @@ import express from 'express';
 import cors from 'cors';
 
 import { infoRouter } from './info/info.router';
+import { dogRouter } from './dogs/dog.router';
+import { userRouter } from './users/user.router';
 
 const app = express();
 app.use(cors());
@@ -14,8 +16,8 @@ app.get('/', (req, res) => {
 });
 
 // TODO: Add routes here
-// app.use('/api/dogs', dogRouter);
-// app.use('/api/users', userRouter);
+app.use('/api/dogs', dogRouter);
+app.use('/api/users', userRouter);
 // app.use('/api/matches', matchRouter);
 // app.use('/api/swipes', swipeRouter);
 

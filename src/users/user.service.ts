@@ -20,10 +20,9 @@ export const listUsers = async (): Promise<User[]> => {
 }
 
 export const findUserById = async (id: number): Promise<User | null> => {
-  const user: User = await db.users.findUnique({
-    where: { id: Number(id) },
-  });
-  return user;
+  return db.users.findUnique({
+    where: { id },
+  })
 }
 
 // TODO: add createDog, updateDog, deleteDog
