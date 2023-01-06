@@ -1,29 +1,29 @@
 import { db } from '../utils/db.server';
 
-export type User = {
+type User = {
   id: number;
-  user_name: string;
-  email: string;
-  password: string;
-  birthday: Date;
-  gender: string;
-  user_pic: string;
-  user_bio: string;
-  role: string;
-  max_distance: number;
-  zip_code: string;
+  user_name: string | null;
+  email: string | null;
+  password: string | null;
+  birthday: Date | null;
+  gender: string | null;
+  user_pic: string | null;
+  user_bio: string | null;
+  role: string | null;
+  max_dist: number | null;
+  zip_code: string | null;
 };
 
 export const listUsers = async (): Promise<User[]> => {
-  const dogs = await db.users.findMany();
-  return dogs;
+  const users: Array<User> = await db.users.findMany();
+  return users;
 }
 
-export const findUserById = async (id: number): Promise<User> => {
-  const dog = await db.users.findUnique({
+export const findUserById = async (id: number): Promise<User | null> => {
+  const user: User = await db.users.findUnique({
     where: { id: Number(id) },
   });
-  return dog;
+  return user;
 }
 
 // TODO: add createDog, updateDog, deleteDog

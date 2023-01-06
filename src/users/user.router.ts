@@ -4,24 +4,24 @@ import { body } from 'express-validator';
 
 import * as userService from './user.service';
 
-export const dogsRouter = express.Router();
+export const usersRouter = express.Router();
 
-// GET /api/dogs
-dogsRouter.get('/', async (req: Request, res: Response) => {
+// GET /api/users
+usersRouter.get('/', async (req: Request, res: Response) => {
   try {
-    const dogs = await userService.listDogs();
-    res.json(dogs);
+    const users = await userService.listUsers();
+    res.json(users);
   }
   catch (err: any) {
     return res.status(500).json({ message: err.message });
   }
 });
 
-// GET /api/dogs/:id
-dogsRouter.get('/:id', async (req: Request, res: Response) => {
+// GET /api/users/:id
+usersRouter.get('/:id', async (req: Request, res: Response) => {
   try {
-    const dog = await userService.findDogById(Number(req.params.id));
-    res.json(dog);
+    const user = await userService.findUserById(Number(req.params.id));
+    res.json(user);
   }
   catch (err: any) {
     return res.status(500).json({ message: err.message });

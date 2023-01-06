@@ -44,7 +44,7 @@ model users {
   user_bio  String?
   role      String?
   max_dist  Int?
-  zip_code  Int?
+  zip_code  String?
   dogs      dogs[]
 }
 

@@ -26,7 +26,7 @@ type User = {
   user_pic: string;
   user_bio: string;
   role: string;
-  max_distance: number;
+  max_dist: number;
   zip_code: string;
 };
 
@@ -114,7 +114,7 @@ async function seed() {
     getUsers().map((user: User) => {
       const { user_name, email, password, birthday,
             gender, user_pic, user_bio, role,
-            max_distance, zip_code } = user;
+            max_dist, zip_code } = user;
       return db.users.create({
         data: {
           user_name,
@@ -125,7 +125,7 @@ async function seed() {
           user_pic,
           user_bio,
           role,
-          max_distance,
+          max_dist,
           zip_code,
         },
       });
@@ -230,7 +230,7 @@ function getUsers(): Array<User> {
       user_pic: 'https://images.unsplash.com/photo-1589986657445-8e1b0e1b5f1c?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nJTIwY29sb3J8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80',
       user_bio: 'I love dogs!',
       role: 'user',
-      max_distance: 10,
+      max_dist: 10,
       zip_code: '12345',
     },
   ];

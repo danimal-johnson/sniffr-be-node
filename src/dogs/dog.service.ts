@@ -3,17 +3,17 @@ import { db } from '../utils/db.server';
 export type Dog = {
   id: number;
   dog_name: string;
-  age: number;
+  birthday: Date | null;
   owner_id: number;
-  breed_id: number;
-  size_id: number;
-  activity1_id: number;
-  activity2_id: number;
-  activity3_id: number;
-  temperament_id: number;
-  is_vaccinated: boolean;
-  is_fixed: boolean;
-  dog_bio: string;
+  breed_id: number | null;
+  size_id: number | null;
+  activity1_id: number | null;
+  activity2_id: number | null;
+  activity3_id: number | null;
+  temperament_id: number | null;
+  is_vaccinated: boolean | null;
+  is_fixed: boolean | null;
+  dog_bio: string | null;
 };
 
 export const listDogs = async (): Promise<Dog[]> => {
@@ -22,7 +22,7 @@ export const listDogs = async (): Promise<Dog[]> => {
 }
 
 export const findDogById = async (id: number): Promise<Dog> => {
-  const dog = await db.dogs.findUnique({
+  const dog: Dog = await db.dogs.findUnique({
     where: { id: Number(id) },
   });
   return dog;
