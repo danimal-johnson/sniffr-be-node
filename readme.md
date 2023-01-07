@@ -10,12 +10,13 @@ Background: The backend for this project was originally written in Python and ho
    * `npx prisma init --datasource-provider sqlite` (if you're using SQLITE.)
 3. `npx prisma db push`: initialize the database
 4. Run migrations and seed the database:
-   * `npx prisma migrate reset` to reset the database.
-   * `npx prisma migrate dev [--name desc]` to interactively seed the database.
+   * `npx prisma migrate reset` to clear and reseed the database.
+   * `npx prisma migrate dev [--name desc]` to interactively migrate the database.
+5. If the seeding hasn't worked, try these options:
+   * `npx prisma db seed`
+   * `npm ts-node prisma/seed.ts` or `npm run seed`
 
-View database:
-
-* `npx prisma studio`
+View live database with `npx prisma studio`.
 
 ## API
 

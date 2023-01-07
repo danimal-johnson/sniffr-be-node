@@ -54,6 +54,7 @@ model dogs {
   updatedAt      DateTime @updatedAt
   dog_name       String
   birthday       DateTime?
+  sex            String?
   breed_id       Int?
   size_id        Int?
   temperament_id Int?

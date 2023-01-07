@@ -1,11 +1,13 @@
 import { db } from '../src/utils/db.server';
+import * as fs from 'fs';
 // import { Dog } from '../src/dogs/dog.service';
 // import { User } from '../src/users/user.service';
 
 type Dog = {
   dog_name: string;
-  birthday: Date;
   owner_id: number;
+  birthday: Date;
+  sex: string;
   breed_id: number;
   size_id: number;
   activity1_id: number;
@@ -30,20 +32,63 @@ type User = {
   zip_code: string;
 };
 
-type Author = {
+type Author = { // TODO: remove
   authorName: string;
   email: string;
 }
 
-type Post = {
+type Post = { // TODO: remove
   title: string;
   content: string | null;
   published: boolean;
 }
 
+// ------ The seeding function -------
 async function seed() {
   console.log("Seeding the database...");
-  console.log("- Adding authors...");
+
+  console.log("- Adding sizes...");
+  const sizes = getSizes();
+  for (const size of sizes) {
+    await db.sizes.create({
+      data: {
+        size,
+      },
+    });
+  }
+
+  console.log("- Adding activities...");
+  const activities = getActivities();
+  for (const activity of activities) {
+    await db.activities.create({
+      data: {
+        activity,
+      },
+    });
+  }
+
+  console.log("- Adding temperaments...");
+  
+  const temperaments = getTemperaments();
+  for (const temperament of temperaments) {
+    await db.temperaments.create({
+      data: {
+        temperament,
+      },
+    });
+  }
+
+  console.log("- Adding breeds...");
+  const breeds = getBreeds();
+  for (const breed of breeds) {
+    await db.breeds.create({
+      data: {
+        breed,
+      },
+    });
+  }
+
+  console.log("- Adding authors..."); // TODO: remove
   await Promise.all(
     getAuthors().map((author: Author) => {
       const { authorName, email } = author;
@@ -56,13 +101,13 @@ async function seed() {
     })
   );
 
-  const author = await db.author.findFirst({
+  const author = await db.author.findFirst({ // TODO: remove
     where: {
       authorName: 'Alice',
     },
   });
 
-  console.log("- Adding posts...");
+  console.log("- Adding posts..."); // TODO: remove
   await Promise.all(
     getPosts().map((post: Post) => {
       const { title, content, published } = post;
@@ -77,38 +122,7 @@ async function seed() {
     }
   ));
 
-  console.log("- Adding activities...");
-  await Promise.all(
-    getActivities().map((activity: string) => {
-      return db.activities.create({
-        data: {
-          activity,
-        },
-      });
-    })
-  );
 
-  console.log("- Adding temperaments...");
-  await Promise.all(
-    getTemperaments().map((temperament: string) => {
-      return db.temperaments.create({
-        data: {
-          temperament,
-        },
-      });
-    })
-  );
-
-  console.log("- Adding sizes...");
-  await Promise.all(
-    getSizes().map((size: string) => {
-      return db.sizes.create({
-        data: {
-          size,
-        },
-      });
-    })
-  );
   console.log("- Adding users...");
   await Promise.all(
     getUsers().map((user: User) => {
@@ -141,14 +155,15 @@ async function seed() {
   console.log("- Adding dogs...");
   await Promise.all(
     getDogs().map((dog: Dog) => {
-      const { dog_name, owner_id, birthday, breed_id, size_id,
+      const { dog_name, owner_id, birthday, sex, breed_id, size_id,
               activity1_id, activity2_id, activity3_id,
               temperament_id, is_vaccinated, is_fixed, dog_bio } = dog;
       return db.dogs.create({
         data: {
           dog_name,
-          birthday,
           owner_id, // user?.id || 1,
+          birthday,
+          sex,
           breed_id,
           size_id,
           activity1_id,
@@ -162,9 +177,10 @@ async function seed() {
       });
     })
   );
-
-
 }
+
+// -------- Helper functions ---------
+
 
 function getAuthors(): Array<Author> {
   return [
@@ -205,6 +221,7 @@ function getDogs(): Array<Dog> {
       dog_name: 'Fido',
       birthday: fidobday,
       owner_id: 1,
+      sex: 'male',
       breed_id: 1,
       size_id: 1,
       activity1_id: 1,
@@ -278,6 +295,16 @@ function getSizes(): Array<string> {
     "Large (60-99 lbs)",
     "Giant (100+ lbs)"
   ];
+}
+
+function getBreeds(): Array<string> {
+  const rawFile = fs.readFileSync('prisma/breeds.csv', 'utf8');
+  const lines = rawFile.split('\n');
+  const breeds: Array<string> = [];
+  for (let line of lines) {
+    breeds.push(line.split(',')[0]);
+  }
+  return breeds.slice(1); // remove header
 }
 
 seed();
