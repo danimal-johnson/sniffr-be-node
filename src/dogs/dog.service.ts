@@ -3,8 +3,9 @@ import { db } from '../utils/db.server';
 export type Dog = {
   id: number;
   dog_name: string;
-  birthday: Date | null;
   owner_id: number;
+  birthday: Date | null;
+  sex: string | null;
   breed_id: number | null;
   size_id: number | null;
   activity1_id: number | null;
@@ -28,7 +29,7 @@ export const findDogById = async (id: number): Promise<Dog | null> => {
 }
 
 export const createDog = async (dog: Omit<Dog, 'id'>): Promise<Dog> => {
-  const { dog_name, birthday, owner_id, breed_id, size_id,
+  const { dog_name, birthday, owner_id, sex, breed_id, size_id,
           activity1_id, activity2_id, activity3_id, temperament_id, 
           is_vaccinated, is_fixed, dog_bio } = dog;
   return db.dogs.create({
@@ -36,6 +37,7 @@ export const createDog = async (dog: Omit<Dog, 'id'>): Promise<Dog> => {
       dog_name,
       birthday,
       owner_id,
+      sex,
       breed_id,
       size_id,
       activity1_id,
@@ -51,6 +53,7 @@ export const createDog = async (dog: Omit<Dog, 'id'>): Promise<Dog> => {
       dog_name: true,
       birthday: true,
       owner_id: true,
+      sex: true,
       breed_id: true,
       size_id: true,
       activity1_id: true,
@@ -68,7 +71,7 @@ export const updateDog = async (
   dog: Omit<Dog, 'id'>,
   id: number
 ): Promise<Dog> => {
-  const { dog_name, birthday, owner_id, breed_id, size_id,
+  const { dog_name, birthday, owner_id, sex, breed_id, size_id,
           activity1_id, activity2_id, activity3_id, temperament_id, 
           is_vaccinated, is_fixed, dog_bio } = dog;
   return db.dogs.update({
@@ -77,6 +80,7 @@ export const updateDog = async (
       dog_name,
       birthday,
       owner_id,
+      sex,
       breed_id,
       size_id,
       activity1_id,
@@ -92,6 +96,7 @@ export const updateDog = async (
       dog_name: true,
       birthday: true,
       owner_id: true,
+      sex: true,
       breed_id: true,
       size_id: true,
       activity1_id: true,
