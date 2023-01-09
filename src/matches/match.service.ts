@@ -2,17 +2,15 @@ import { db } from '../utils/db.server';
 
 export type Match = {
   id: number;
-  temperament: string;
+
+  // dog_id_one: number,
+  // dog_id_two: number,
+  // creation_time: Date, // DateTime?
 };
 
 // TODO: This is just an example. Shrink it down.
 export const listMatches = async (): Promise<Match[]> => {
-  const matches = await db.matches.findMany({
-    select: {
-      id: true,
-      temperament: true,
-    }
-  });
+  const matches = await db.matches.findMany();
   return matches;
 }
 

@@ -30,8 +30,9 @@ matchRouter.get('/:id', async (req: Request, res: Response) => {
 
 // DELETE /api/matches/:id
 matchRouter.delete('/matches/:id', async (req: Request, res: Response) => {
+  // TODO: remove associated swipes in swipes table
   try {
-    const matches = await matchService.deleteMatch();
+    const matches = await matchService.deleteMatch(Number(req.params.id));
     res.json(matches);
   }
   catch (err: any) {
