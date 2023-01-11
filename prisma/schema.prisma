@@ -87,3 +87,24 @@ model breeds {
   id        Int      @id @default(autoincrement())
   breed     String
 }
+
+model matches {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  dog1      dogs     @relation(fields: [dog_id_one], references: [id], onDelete: Cascade)
+  dog_id_one Int
+  dog2      dogs     @relation(fields: [dog_id_two], references: [id], onDelete: Cascade)
+  dog_id_two Int
+}
+
+model Swipes {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  dog       dogs     @relation(fields: [dog_id], references: [id], onDelete: Cascade)
+  dog_id    Int
+  swiped_dog dogs    @relation(fields: [swiped_dog_id], references: [id], onDelete: Cascade)
+  swiped_dog_id  Int
+  is_interested  Boolean?
+}
