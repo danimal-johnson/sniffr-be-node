@@ -67,6 +67,8 @@ model dogs {
   dog_bio        String?
   owner          users @relation(fields: [owner_id], references: [id], onDelete: Cascade)
   owner_id       Int
+  matches        matches[]  @relation("MatchedDog")
+  swipes         swipes[]   @relation("SwipedDog")
 }
 model activities {
   id        Int      @id @default(autoincrement())
@@ -89,22 +91,25 @@ model breeds {
 }
 
 model matches {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  dog1      dogs     @relation(fields: [dog_id_one], references: [id], onDelete: Cascade)
-  dog_id_one Int
-  dog2      dogs     @relation(fields: [dog_id_two], references: [id], onDelete: Cascade)
-  dog_id_two Int
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  // dog_one    dogs     @relation(fields: [dog_id], references: [id], onDelete: Cascade)
+  // This dog
+  dog_id     Int
+  // This dog's match
+  dog_two    dogs     @relation(name: "MatchedDog", fields: [dog_two_id], references: [id], onDelete: Cascade)
+  dog_two_id Int
 }
 
-model Swipes {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  dog       dogs     @relation(fields: [dog_id], references: [id], onDelete: Cascade)
-  dog_id    Int
-  swiped_dog dogs    @relation(fields: [swiped_dog_id], references: [id], onDelete: Cascade)
-  swiped_dog_id  Int
-  is_interested  Boolean?
+model swipes {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  // dog           dogs      @relation(fields: [dog_id], references: [id], onDelete: Cascade)
+  // This Dog
+  dog_id        Int
+  swiped_dog    dogs      @relation(name: "SwipedDog", fields: [swiped_dog_id], references: [id], onDelete: Cascade)
+  swiped_dog_id Int
+  is_interested Boolean?
 }
