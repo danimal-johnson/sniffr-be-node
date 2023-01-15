@@ -14,7 +14,7 @@ authRouter.post('/signup', async (req: Request, res: Response) => {
   catch (err: any) {
     return res.status(500).json({ message: err.message });
   }
-}
+});
 
 // POST /api/login
 authRouter.post('/login', async (req: Request, res: Response) => {
@@ -28,4 +28,4 @@ authRouter.post('/login', async (req: Request, res: Response) => {
   catch (err: any) {
     return res.status(500).json({ message: err.message });
   }
-}
+});

@@ -1,7 +1,12 @@
 import { db } from '../utils/db.server';
-import { hashPassword } from '../utils/utils';
+// import { hashPassword } from '../utils/utils';
 
-const login = async (email: string, password: string) => {
+// TODO: replace function with actual hashing function
+function hashPassword(password: string) {
+  return password;
+}
+
+export const login = async (email: string, password: string) => {
   const user = await db.users.findUnique({
     where: {
       email,
@@ -20,4 +25,18 @@ const login = async (email: string, password: string) => {
   }
 
   return user;
+}
+
+export const signup = async (user: any) => {
+  const { email, password } = user;
+  
+  const existingUser = await db.users.findUnique({
+    where: {
+      email,
+    },
+  });
+  
+  if (existingUser) {
+    throw new Error('User already exists');
+  }
 }
