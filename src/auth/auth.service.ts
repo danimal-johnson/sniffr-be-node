@@ -6,7 +6,7 @@ function hashPassword(password: string) {
   return password;
 }
 
-export const login = async (email: string, password: string) => {
+export const login = async (email: string, password: string): Promise<any> => {
   const user = await db.users.findUnique({
     where: {
       email,
@@ -27,16 +27,23 @@ export const login = async (email: string, password: string) => {
   return user;
 }
 
-export const signup = async (user: any) => {
+export const signup = async (user: any): Promise<void> => {
   const { email, password } = user;
   
-  const existingUser = await db.users.findUnique({
-    where: {
-      email,
-    },
+  const existingUsers = await db.users.findMany({
+    where: { email: email }
   });
-  
-  if (existingUser) {
+
+  console.log(existingUsers);
+
+  if (existingUsers.length > 0) {
     throw new Error('User already exists');
   }
+  
+  await db.users.create({
+    data: {
+      ...user,
+      password: hashPassword(password),
+    }
+  });
 }

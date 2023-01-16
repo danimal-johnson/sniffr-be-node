@@ -1,9 +1,13 @@
 import express from 'express';
 import type { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 import * as authService from './auth.service';
 
 export const authRouter = express.Router();
+
+const SECRET_KEY = process.env.SECRET_KEY || 'secret';
 
 // POST /api/signup
 authRouter.post('/signup', async (req: Request, res: Response) => {
