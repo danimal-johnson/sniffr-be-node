@@ -1,12 +1,22 @@
 import { db } from '../utils/db.server';
-// import { hashPassword } from '../utils/utils';
+import bcrypt from 'bcrypt';
 
-// TODO: replace function with actual hashing function
-function hashPassword(password: string) {
-  return password;
+export type User = {
+  id: number;
+  user_name: string | null;
+  email: string;
+  password: string;
+  birthday: Date | null;
+  gender: string | null;
+  user_pic: string | null;
+  user_bio: string | null;
+  role: string | null;
+  max_dist: number | null;
+  zip_code: string | null;
 }
 
-export const login = async (email: string, password: string): Promise<any> => {
+export const login = async (email: string, password: string): 
+  Promise<User> => {
   const user = await db.users.findUnique({
     where: {
       email,
@@ -14,16 +24,16 @@ export const login = async (email: string, password: string): Promise<any> => {
   });
 
   if (!user) {
-    throw new Error('User not found');
+    throw new Error('User not found'); // Crashes
   }
 
   // TODO: add salt to user. Then: 2nd arg is user.salt
-  const passwordMatch = await hashPassword(password) === user.password;
-
-  if (!passwordMatch) {
-    throw new Error('Password does not match');
+  if (!bcrypt.compareSync(password, user.password)) {
+    throw new Error ('Password does not match'); // Crashes
   }
 
+  console.log(`Matched PW: ${password}`);
+  console.log(user);
   return user;
 }
 
@@ -37,13 +47,13 @@ export const signup = async (user: any): Promise<void> => {
   console.log(existingUsers);
 
   if (existingUsers.length > 0) {
-    throw new Error('User already exists');
+    throw new Error('User already exists'); // Works okay.
   }
   
   await db.users.create({
     data: {
       ...user,
-      password: hashPassword(password),
+      password: bcrypt.hashSync(password, 10),
     }
   });
 }
